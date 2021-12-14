@@ -1,12 +1,8 @@
-package kea.sem3.jwtdemo.api;
+package kea.sem3.jwtdemo.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kea.sem3.jwtdemo.security.Role;
-import kea.sem3.jwtdemo.security.User;
-import kea.sem3.jwtdemo.security.UserRepository;
 import kea.sem3.jwtdemo.security.dto.LoginRequest;
 import kea.sem3.jwtdemo.security.dto.LoginResponse;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;

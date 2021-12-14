@@ -1,7 +1,6 @@
-package kea.sem3.jwtdemo.api;
+package kea.sem3.jwtdemo.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kea.sem3.jwtdemo.security.UserRepository;
 import kea.sem3.jwtdemo.security.dto.SignupRequest;
 import kea.sem3.jwtdemo.security.dto.SignupResponse;
 import org.junit.jupiter.api.BeforeEach;

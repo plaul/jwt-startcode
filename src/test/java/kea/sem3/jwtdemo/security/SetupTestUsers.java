@@ -1,4 +1,4 @@
-package kea.sem3.jwtdemo.api;
+package kea.sem3.jwtdemo.security;
 
 import kea.sem3.jwtdemo.security.Role;
 import kea.sem3.jwtdemo.security.User;
