@@ -25,7 +25,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         Map<String, Object> errorBody = new HashMap<>();
-        errorBody.put("path",((ServletWebRequest)request).getRequest().getRequestURI().toString());
+        errorBody.put("path", ((ServletWebRequest)request).getRequest().getRequestURI());
         errorBody.put("status","400");
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -40,7 +40,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Client4xxException.class)
     public ResponseEntity<Map<String, String>> handleException(HttpServletRequest request, Client4xxException e) {
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("path",request.getRequestURI().toString());
+        errorResponse.put("path", request.getRequestURI());
         errorResponse.put("error", e.getLocalizedMessage());
         errorResponse.put("status", ""+e.getStatus().value());
         return new ResponseEntity<>(errorResponse, e.getStatus());

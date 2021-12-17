@@ -19,7 +19,7 @@ public class UserDetailsImp implements UserDetails {
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
         this.authorities = user.getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());;
+                new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
     }
 
     @Override
