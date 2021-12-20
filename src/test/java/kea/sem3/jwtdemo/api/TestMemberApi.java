@@ -12,16 +12,12 @@ import kea.sem3.jwtdemo.repositories.MemberRepository;
 import kea.sem3.jwtdemo.security.Role;
 import kea.sem3.jwtdemo.security.User;
 import kea.sem3.jwtdemo.security.UserRepository;
-import kea.sem3.jwtdemo.security.dto.LoginRequest;
-import kea.sem3.jwtdemo.security.dto.LoginResponse;
+import kea.sem3.jwtdemo.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -42,13 +38,12 @@ import static org.hamcrest.Matchers.*;
 //import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")  //Will prevent the DateSetup CommandlineRunner from running
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase
+//@AutoConfigureTestDatabase
 public class TestMemberApi {
 
     @Autowired
@@ -62,17 +57,6 @@ public class TestMemberApi {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    public TestMemberApi() throws Exception {
-    }
-
-    private String login(String username, String pw) throws Exception {
-        MvcResult response = mockMvc.perform(post("/api/auth/login")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(new LoginRequest(username, pw))))
-                .andReturn();
-        return objectMapper.readValue(response.getResponse().getContentAsString(), LoginResponse.class).getToken();
-    }
 
 
     @BeforeEach
@@ -106,7 +90,7 @@ public class TestMemberApi {
 
      @Test
     public void testGetAuthenticatedUser() throws Exception {
-        String token = login("kw", "test12");
+        String token = TestUtils.login("kw", "test12",mockMvc,objectMapper);
         MvcResult response = mockMvc.perform(get("/api/member/authenticated-user")
                         .header("Authorization", "Bearer " + token)
                         .accept("application/json"))
@@ -118,7 +102,7 @@ public class TestMemberApi {
 
     @Test
     public void testGetUserFromUserName() throws Exception {
-        String token = login("admin-for-tests", "test12");
+        String token = TestUtils.login("admin-for-tests", "test12",mockMvc,objectMapper);
         MvcResult response = mockMvc.perform(get("/api/member/kw")
                         .header("Authorization", "Bearer " + token)
                         .accept("application/json"))

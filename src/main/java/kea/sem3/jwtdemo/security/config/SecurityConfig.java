@@ -99,6 +99,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/message/all").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/member").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/car").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/car/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/car/by-brand/{brand}").permitAll()
+                .antMatchers(HttpMethod.GET, "/index.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/reservation/{carId}/{date}").permitAll()
                 // All other endpoints are private
                 .anyRequest().authenticated();
                 //.anyRequest().permitAll();

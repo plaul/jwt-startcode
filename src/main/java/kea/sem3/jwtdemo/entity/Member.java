@@ -13,6 +13,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -45,6 +47,8 @@ public class Member {
     @UpdateTimestamp
     LocalDateTime dateUpdate;
 
+    @OneToMany(mappedBy = "reservedTo", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    List<Reservation> reservations = new ArrayList<>();
 
     public Member(String firstName, String lastName, String street,String city, String zip, LocalDate dob, String username,String email,String password) {
         this.firstName = firstName;
@@ -63,6 +67,10 @@ public class Member {
         this.zip = memberDto.getZip();
         this.dateOfBirth = memberDto.getDateOfBirth();
         user = new User(memberDto.getUsername(),memberDto.getEmail(),memberDto.getPassword());
+    }
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+        reservation.setReservedTo(this);
     }
 
     public String getUserName(){

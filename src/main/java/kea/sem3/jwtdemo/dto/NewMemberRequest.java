@@ -1,6 +1,7 @@
 package kea.sem3.jwtdemo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import kea.sem3.jwtdemo.entity.Member;
 import kea.sem3.jwtdemo.security.dto.ValidationValues;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,11 @@ public class NewMemberRequest extends MemberDto {
 
     public NewMemberRequest(String username, String email,  String password,String firstName, String lastName, String street, String city, String zip, LocalDate dateOfBirth) {
         super(username, email, firstName, lastName, street, city, zip, dateOfBirth);
+        this.password = password;
+    }
+    //Utility constructor ONLY meant to simplify tests
+    public NewMemberRequest(Member m,String password) {
+        super(m.getUserName(), m.getEmail(), m.getFirstName(), m.getLastName(), m.getStreet(), m.getCity(), m.getZip(), m.getDateOfBirth());
         this.password = password;
     }
 }

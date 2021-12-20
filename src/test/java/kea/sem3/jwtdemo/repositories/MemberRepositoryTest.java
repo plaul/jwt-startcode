@@ -44,4 +44,9 @@ class MemberRepositoryTest {
         boolean exist = memberRepository.userExist("kw");
         assertTrue(exist);
     }
+    @Test
+    public void testEmailExists(){
+        boolean exist = memberRepository.emailExist("kw@aa.dk");
+        assertTrue(exist);
+    }
 }

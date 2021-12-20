@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     MemberRepository memberRepository;
-
-
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
@@ -39,17 +37,26 @@ public class MemberService {
         if (memberRepository.userExist(memberDto.getUsername())) {
             throw new Client4xxException("Provided user name is taken");
         }
+        if (memberRepository.emailExist(memberDto.getEmail())) {
+            throw new Client4xxException("Provided email is taken");
+        }
         Member member = new Member(memberDto);
         member.addRole(Role.USER);
         member = memberRepository.save(member);
         return new NewMemberResponse(member.getUserName(), member.getDateCreated(), member.getUser().getRoles());
     }
 
+
+
     public void editMember(NewMemberRequest memberToEdit, String userName) {
         if (!memberToEdit.getUsername().equals(userName)) {
             throw new Client4xxException("Cannot change username");
         }
         Member m = memberRepository.findByUserName(userName).orElseThrow(() -> new Client4xxException("User not found"));
+
+        if (!(m.getEmail().equals(memberToEdit.getEmail()) && memberRepository.emailExist(memberToEdit.getEmail()))) {
+            throw new Client4xxException("New email is used by another member");
+        }
         m.setEmail(memberToEdit.getEmail());
         m.setFirstName(memberToEdit.getFirstName());
         if( !(memberToEdit.getPassword() == null) && !memberToEdit.getPassword().isBlank()){
